@@ -8,7 +8,7 @@ RUN     DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 RUN     echo "http://security.debian.org/debian-security" >/etc/apt-cacher-ng/backend_debian-security && \
         echo "Remap-secdeb: /debian-security ; security.debian.org deb.debian.org/debian-security" && \
-        sed -i 's#deb.debian.org#localhost#g;s#security.debian.org#localhost#g'
+        sed -i 's#deb.debian.org#localhost#g;s#security.debian.org#localhost#g' /etc/apt-cacher-ng/acng.conf
 
 EXPOSE  3142
 CMD     chmod 777 /var/cache/apt-cacher-ng && cron && /etc/init.d/apt-cacher-ng start && tail -f /var/log/apt-cacher-ng/*
