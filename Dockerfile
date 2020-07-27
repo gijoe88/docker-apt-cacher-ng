@@ -8,6 +8,7 @@ RUN     DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 RUN     echo "http://security.debian.org/debian-security" >/etc/apt-cacher-ng/backend_debian-security && \
         echo "Remap-secdeb: /debian-security ; security.debian.org deb.debian.org/debian-security" >>/etc/apt-cacher-ng/acng.conf && \
+        echo "Remap-ubuportrep: ports.ubuntu.com /ubuntu-ports ; ports.ubuntu.com/ubuntu-ports" >>/etc/apt-cacher-ng/acng.conf && \
         sed -i 's#deb.debian.org#localhost:3142#g;s#security.debian.org#localhost:3142#g' /etc/apt/sources.list
 
 EXPOSE  3142
