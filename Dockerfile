@@ -1,4 +1,9 @@
+ARG     SOURCE_IMAGE=debian
+ARG     SOURCE_TAG=buster
+
 FROM    ${SOURCE_IMAGE}:${SOURCE_TAG}
+
+ARG     CACHER_PACKAGE_VERSION=3.2.1-1
 
 VOLUME  ["/var/cache/apt-cacher-ng"]
 RUN     DEBIAN_FRONTEND=noninteractive apt-get update && \
