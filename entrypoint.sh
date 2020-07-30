@@ -11,18 +11,18 @@ create_cache_dir() {
   mkdir -p ${ACNG_CACHE_DIR}
   chmod -R 0755 ${ACNG_CACHE_DIR}
   chown -R ${ACNG_USER}:root ${ACNG_CACHE_DIR}
-  egrep -q '^CacheDir' /etc/apt-cacher-ng/acng.conf && sed -i "s#^CacheDir.*$#CacheDir: ${ACNG_CACHE_DIR}#g" || echo "CacheDir: ${ACNG_CACHE_DIR}" >>/etc/apt-cacher-ng/acng.conf
+  egrep -q '^CacheDir' /etc/apt-cacher-ng/acng.conf && sed -i "s#^CacheDir.*\$#CacheDir: ${ACNG_CACHE_DIR}#g" || echo "CacheDir: ${ACNG_CACHE_DIR}" >>/etc/apt-cacher-ng/acng.conf
 }
 
 create_log_dir() {
   mkdir -p ${ACNG_LOG_DIR}
   chmod -R 0755 ${ACNG_LOG_DIR}
   chown -R ${ACNG_USER}:${ACNG_USER} ${ACNG_LOG_DIR}
-  egrep -q '^LogDir' /etc/apt-cacher-ng/acng.conf && sed -i "s#^LogDir.*$#LogDir: ${ACNG_LOG_DIR}#g" || echo "CacheDir: ${ACNG_LOG_DIR}" >>/etc/apt-cacher-ng/acng.conf
+  egrep -q '^LogDir' /etc/apt-cacher-ng/acng.conf && sed -i "s#^LogDir.*\$#LogDir: ${ACNG_LOG_DIR}#g" || echo "CacheDir: ${ACNG_LOG_DIR}" >>/etc/apt-cacher-ng/acng.conf
 }
 
 add_rules() {
-  env | gawk 'match( $0, /^REMAP_(.*)=(.*)$/, captured ) { printf "MyRemap-%s: nimp  %s\n", tolower(captured[1]), captured[2] ; }' >>/etc/apt-cacher-ng/acng.conf
+  env | gawk 'match( $0, /^REMAP_(.*)=(.*)$/, captured ) { printf "Remap-%s: %s\n", tolower(captured[1]), captured[2] ; }' >>/etc/apt-cacher-ng/acng.conf
 }
 
 change_port() {
