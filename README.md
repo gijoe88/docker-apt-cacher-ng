@@ -1,6 +1,6 @@
 # gijoe88/docker-apt-cacher-ng
 
-My thanks to [sameersbn](https://github.com/sameersbn) from who I copied this README.
+My thanks to [sameersbn](https://github.com/sameersbn) from who I copied this README and the entrypoint script. I promise I'll fork his project and propose a pull request to add my modifications.
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -79,9 +79,31 @@ docker run --name apt-cacher-ng --init -it --rm \
   gijoe88/docker-apt-cacher-ng -h
 ```
 
+## Environment variables
+
+**Non root user**: **not yet tested!**
+- `ACNG_USER`: set this environment variable to uid to use, or to a user present in bare distro image
+
+**Data location inside container**
+- `ACNG_CACHE_DIR`: location of cache inside the container.
+- `ACNG_LOG_DIR`: location of log files inside container
+
+**Port to bind to inside container**
+- `ACNG_PORT`: port to bind to in the container (3142 is the default). Pay attention to the fact that if `ACNG_USER` is not root, ports below 1024 cannot be binded to.
+
+**Remapping rules**<br />
+Some rules are already added in this image to the default ones from base distro package.
+To add others, you can use the variables `REMAP_{yourdebalias}` with the value you want it to take in apt-cacher-ng configuration.<br />Example with the two already added inside the image:
+- The environment variable `REMAP_SECDEB` with value `/debian-security ; security.debian.org deb.debian.org/debian-security` gives the rule<br />
+`Remap-secdeb: /debian-security ; security.debian.org deb.debian.org/debian-security`
+- `REMAP_UBUPORTREP` with value `ports.ubuntu.com /ubuntu-ports ; ports.ubuntu.com/ubuntu-ports` gives the rule<br />
+`Remap-ubuportrep: ports.ubuntu.com /ubuntu-ports ; ports.ubuntu.com/ubuntu-ports`
+
+The explanation of the rules may be found on [apt-cacher-ng documentation](https://www.unix-ag.uni-kl.de/~bloch/acng/html/config-serv.html#repmap).
+
 ## Persistence
 
-For the cache to preserve its state across container shutdown and startup you should mount a volume at `/var/cache/apt-cacher-ng`.
+For the cache to preserve its state across container shutdown and startup you should mount a volume at `/var/cache/apt-cacher-ng` (or whatever is the value of `ACNG_CACHE_DIR` environment variable).
 
 > *The [Quickstart](#quickstart) command already mounts a volume for persistence.*
 
@@ -97,7 +119,6 @@ chcon -Rt svirt_sandbox_file_t /srv/docker/apt-cacher-ng
 To run Apt-Cacher NG with Docker Compose, create the following `docker-compose.yml` file
 
 ```yaml
----
 version: '3'
 
 services:
@@ -112,6 +133,7 @@ services:
 
 volumes:
   apt-cacher-ng:
+---
 ```
 
 The Apt-Cache NG service can then be started in the background with:
@@ -125,14 +147,19 @@ docker-compose up -d
 To start using Apt-Cacher NG on your Debian (and Debian based) host, create the configuration file `/etc/apt/apt.conf.d/01proxy` with the following content:
 
 ```config
-Acquire::HTTP::Proxy "http://172.17.0.1:3142";
+Acquire::HTTP::Proxy "http://{YOUR_APT_CACHER_IP}:3142";
 Acquire::HTTPS::Proxy "false";
 ```
+`YOUR_APT_CACHER_IP` is the IP of the docker host if port 3142 is exposed, or the IP of the container, which may be found using
+```bash
+docker container inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' apt-cacher-ng
+```
 
-Similarly, to use Apt-Cacher NG in you Docker containers add the following line to your `Dockerfile` before any `apt-get` commands.
+
+Similarly, to use Apt-Cacher NG in your Docker containers add the following line to your `Dockerfile` before any `apt-get` commands.
 
 ```dockerfile
-RUN echo 'Acquire::HTTP::Proxy "http://{apt-cacher-ng internal IP}:3142";' >> /etc/apt/apt.conf.d/01proxy \
+RUN echo 'Acquire::HTTP::Proxy "http://{YOUR_APT_CACHER_IP}:3142";' >> /etc/apt/apt.conf.d/01proxy \
  && echo 'Acquire::HTTPS::Proxy "false";' >> /etc/apt/apt.conf.d/01proxy
 ```
 
