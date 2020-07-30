@@ -17,14 +17,15 @@ RUN     set -eux ; \
 
 EXPOSE  3142
 
+COPY    acng.conf     /etc/acng.conf
+
 ENV     ACNG_CACHE_DIR=/var/cache/apt-cacher-ng \
   ACNG_LOG_DIR=/var/log/apt-cacher-ng \
   ACNG_USER=root \
   REMAP_UBUPORTREP="ports.ubuntu.com /ubuntu-ports ; ports.ubuntu.com/ubuntu-ports" \
-  REMAP_SECDEB="security.debian.org /debian-security ; security.debian.org/debian-security deb.debian.org/debian-security"
+  REMAP_SECDEB="/debian-security ; security.debian.org/debian-security deb.debian.org/debian-security"
 
 COPY    entrypoint.sh /sbin/entrypoint.sh
-
 RUN     chmod 755 /sbin/entrypoint.sh
 ENTRYPOINT      [ "/sbin/entrypoint.sh" ]
 
