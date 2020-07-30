@@ -9,6 +9,7 @@ variables:
   LIST_OF_ARCH: "amd64:arm64:armhf" # colon separated list or arch. e.g: "amd64:arm64:armhf"
 
   CACHER_PACKAGE_VERSION: "3.2.1-1"
+  TINI_VERSION: v0.19.0
 
 include:
   - project: gijoe88/gitlab-ci
