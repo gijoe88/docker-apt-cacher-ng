@@ -4,11 +4,17 @@ ARG     SOURCE_TAG=buster
 FROM    ${SOURCE_IMAGE}:${SOURCE_TAG}
 
 ARG     CACHER_PACKAGE_VERSION=3.2.1-1
+ARG     ARCH=amd64
+ARG     TINI_VERSION=v0.19.0
 
 VOLUME  ["/var/cache/apt-cacher-ng"]
 RUN     set -eux ; \
         DEBIAN_FRONTEND=noninteractive apt-get update ; \
-        DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng=${CACHER_PACKAGE_VERSION} gawk gosu ; \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng=${CACHER_PACKAGE_VERSION} gawk gosu curl ; \
+        curl -L -o /sbin/tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${ARCH} ; \
+        chmod a+x /sbin/tini ; \
+        DEBIAN_FRONTEND=noninteractive apt-get purge -y curl ; \
+        DEBIAN_FRONTEND=noninteractive apt-get autoremove -y ; \
         rm -rf /var/lib/apt/lists/*
 
 RUN     set -eux ; \
@@ -26,6 +32,6 @@ ENV     ACNG_CACHE_DIR=/var/cache/apt-cacher-ng \
 COPY    entrypoint.sh /sbin/entrypoint.sh
 
 RUN     chmod 755 /sbin/entrypoint.sh
-ENTRYPOINT      [ "/sbin/entrypoint.sh" ]
+ENTRYPOINT      [ "/sbin/tini" , "-g" , "--" , "/sbin/entrypoint.sh" ]
 
 CMD     [ "apt-cacher-ng" ]
