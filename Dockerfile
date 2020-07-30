@@ -34,4 +34,4 @@ COPY    entrypoint.sh /sbin/entrypoint.sh
 RUN     chmod 755 /sbin/entrypoint.sh
 ENTRYPOINT      [ "/sbin/tini" , "-g" , "--" , "/sbin/entrypoint.sh" ]
 
-CMD     [ "apt-cacher-ng" ]
+CMD     [ "apt-cacher-ng" , "-c" , "/etc/apt-cacher-ng"]

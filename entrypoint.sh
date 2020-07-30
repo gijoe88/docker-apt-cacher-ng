@@ -29,11 +29,16 @@ change_port() {
   echo "Port:${ACNG_PORT:-3142}" >>/etc/apt-cacher-ng/acng.conf
 }
 
+change_config_folder_rights() {
+  chown -R ${ACNG_USER}:${ACNG_USER} /etc/apt-cacher-ng
+}
+
 create_pid_dir
 create_cache_dir
 create_log_dir
 add_rules
 change_port
+change_config_folder_rights
 
 # allow arguments to be passed to apt-cacher-ng
 if [[ "x${1:0:1}" = "x-" ]]; then
