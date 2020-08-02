@@ -65,8 +65,13 @@ Start Apt-Cacher NG using:
 
 ```bash
 docker run --name apt-cacher-ng --init -d --restart=always \
+  --env ACNG_PORT=3142 \
   --publish 3142:3142 \
-  --volume /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng \
+  --env ACNG_USER=1000 \
+  --env ACNG_CACHE_DIR=/var/cache/apt-cacher-ng \
+  --volume /srv/docker/apt-cacher-ng/cache:/var/cache/apt-cacher-ng \
+  --env ACNG_LOG_DIR=/var/log/apt-cacher-ng \
+  --volume /srv/docker/apt-cacher-ng/log:/var/log/apt-cacher-ng \
   gijoe88/docker-apt-cacher-ng
 ```
 
@@ -81,8 +86,8 @@ docker run --name apt-cacher-ng --init -it --rm \
 
 ## Environment variables
 
-**Non root user**: **not yet tested!**
-- `ACNG_USER`: set this environment variable to uid to use, or to a user present in bare distro image
+**Non root user**: **not fully tested!**
+- `ACNG_USER`: set this environment variable to uid to use, or to a user present in bare distro image. Event the EXEC commands when container is alive become rootless.
 
 **Data location inside container**
 - `ACNG_CACHE_DIR`: location of cache inside the container.
@@ -90,6 +95,9 @@ docker run --name apt-cacher-ng --init -it --rm \
 
 **Port to bind to inside container**
 - `ACNG_PORT`: port to bind to in the container (3142 is the default). Pay attention to the fact that if `ACNG_USER` is not root, ports below 1024 cannot be binded to.
+
+**Enabling ReportPage (aka admin)**
+- `ACNG_REPORTPAGE`: page location of the report (default: not set, usual value: `acng-report.html`)
 
 **Remapping rules**<br />
 Some rules are already added in this image to the default ones from base distro package.

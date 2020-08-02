@@ -33,6 +33,12 @@ change_config_folder_rights() {
   chown -R ${ACNG_USER}:${ACNG_USER} /etc/apt-cacher-ng
 }
 
+setReportPage() {
+  if [[ -z "${ACNG_REPORTPAGE}" ]] ; then
+    sed -i "s#ReportPage.*\$#ReportPage: ${ACNG_REPORTPAGE}#" /etc/apt-cacher-ng/acng.conf
+  fi
+}
+
 # allow arguments to be passed to apt-cacher-ng
 if [[ "x${1:0:1}" = "x-" ]]; then
   EXTRA_ARGS="$@"
@@ -57,5 +63,5 @@ if [[ -z "${1}" ]]; then
 
   exec gosu ${ACNG_USER} /usr/sbin/apt-cacher-ng ${EXTRA_ARGS}
 else
-  exec $@
+  exec gosu ${ACNG_USER} $@
 fi
