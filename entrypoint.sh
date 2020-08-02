@@ -52,7 +52,7 @@ if [[ -z "${1}" ]]; then
   change_port
   change_config_folder_rights
 
-  sed -i 's#deb.debian.org#mydeb.debian.org:${ACNG_PORT:-3142}#g;s#security.debian.org#mysecurity.debian.org:${ACNG_PORT:-3142}#g' /etc/apt/sources.list
+  sed -i "s#deb.debian.org#mydeb.debian.org:${ACNG_PORT:-3142}#g;s#security.debian.org#mysecurity.debian.org:${ACNG_PORT:-3142}#g" /etc/apt/sources.list
   echo "127.0.0.2 mydeb.debian.org mysecurity.debian.org" >>/etc/hosts
 
   exec gosu ${ACNG_USER} /usr/sbin/apt-cacher-ng ${EXTRA_ARGS}

@@ -14,7 +14,7 @@ RUN     set -eux ; \
 
 EXPOSE  3142
 
-COPY    acng.conf     /etc/acng.conf
+COPY    acng.conf     /etc/apt-cacher-ng/acng.conf
 
 ENV     ACNG_CACHE_DIR=/var/cache/apt-cacher-ng \
   ACNG_LOG_DIR=/var/log/apt-cacher-ng \
