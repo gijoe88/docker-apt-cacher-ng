@@ -33,7 +33,7 @@ change_config_folder_rights() {
   chown -R ${ACNG_USER}:${ACNG_USER} /etc/apt-cacher-ng
 }
 
-setReportPage() {
+set_report_page() {
   if [[ -z "${ACNG_REPORTPAGE}" ]] ; then
     sed -i "s#ReportPage.*\$#ReportPage: ${ACNG_REPORTPAGE}#" /etc/apt-cacher-ng/acng.conf
   fi
@@ -56,6 +56,7 @@ if [[ -z "${1}" ]]; then
   create_log_dir
   add_rules
   change_port
+  set_report_page
   change_config_folder_rights
 
   sed -i "s#deb.debian.org#mydeb.debian.org:${ACNG_PORT:-3142}#g;s#security.debian.org#mysecurity.debian.org:${ACNG_PORT:-3142}#g" /etc/apt/sources.list
