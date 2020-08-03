@@ -4,9 +4,9 @@ variables:
   SOURCE_IMAGE: debian
   SOURCE_TAG: buster
   TARGET_IMAGE_TEST: registry-test.gijoe88.com:443/apt-cacher-ng
-  TARGET_IMAGE_PROD: registry.gijoe88.com:443/apt-cacher-ng
+  TARGET_IMAGE_PROD: "registry.gijoe88.com:443/apt-cacher-ng gijoe88/docker-apt-cacher-ng"
   TARGET_IMAGE_TAG_PREFIX: "buster-"
-  LIST_OF_ARCH: "amd64:arm64:armhf" # colon separated list or arch. e.g: "amd64:arm64:armhf"
+  LIST_OF_ARCH: "amd64 arm64 armhf" # space separated list or arch. e.g: "amd64 arm64 armhf"
 
   CACHER_PACKAGE_VERSION: "3.2.1-1"
   TINI_VERSION: v0.19.0
