@@ -2,14 +2,12 @@ variables:
   DOCKER_FOLDER: "." # folder source for build
   DOCKERFILE: "Dockerfile" # Dockerfile location, relative to DOCKER_FOLDER
   SOURCE_IMAGE: debian
-  SOURCE_TAG: buster
+  SOURCE_TAG: bullseye
   TARGET_IMAGE_TEST: registry-test.gijoe88.com:443/apt-cacher-ng
   TARGET_IMAGE_PROD: "registry.gijoe88.com:443/apt-cacher-ng gijoe88/docker-apt-cacher-ng"
-  TARGET_IMAGE_TAG_PREFIX: "buster-"
   LIST_OF_ARCH: "amd64 arm64 armhf" # space separated list or arch. e.g: "amd64 arm64 armhf"
 
-  CACHER_PACKAGE_VERSION: "3.2.1-1"
-  TINI_VERSION: v0.19.0
+  CACHER_PACKAGE_VERSION: "3.5-1"
 
 include:
   - project: gijoe88/gitlab-ci

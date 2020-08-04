@@ -46,8 +46,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 ## Installation
 
 Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/gijoe88/docker-apt-cacher-ng) and is the recommended method of installation.
-Automated build are only on adm64 architecture, I'll push other architectures later, notably aarch64 for example for Raspberry (3B+ and 4B are really useful).
-
+Automated build are only on adm64 architecture, and always tagged `latest`.
 
 ```bash
 docker pull gijoe88/docker-apt-cacher-ng
@@ -57,6 +56,15 @@ Alternatively you can build the image yourself.
 
 ```bash
 docker build -t gijoe88/docker-apt-cacher-ng github.com/gijoe88/docker-apt-cacher-ng
+```
+
+I'm pushing other architectures, notably aarch64/arm64 for example for Raspberry (3B+ and 4B are really useful).
+
+With multiarch tagging, the same command is used to install it on whichever machine:
+
+```bash
+# See Tags page for available tags
+docker pull gijoe88/docker-apt-cacher-ng:buster-3.2.1-4
 ```
 
 ## Quickstart
