@@ -9,6 +9,7 @@ My thanks to [sameersbn](https://github.com/sameersbn) from who I copied this RE
   - [Installation](#installation)
   - [Quickstart](#quickstart)
   - [Command-line arguments](#command-line-arguments)
+  - [Environment variables](#environment-variables)
   - [Persistence](#persistence)
   - [Docker Compose](#docker-compose)
   - [Usage](#usage)
@@ -92,10 +93,31 @@ docker run --name apt-cacher-ng --init -it --rm \
   gijoe88/docker-apt-cacher-ng -h
 ```
 
+Do remember to put `-c /etc/apt-cacher-ng` to run the "daemon" when adding some parameters.
+
+E.g., adding verbosity:
+
+```bash
+docker run --name apt-cacher-ng --init -d --restart=always \
+  --env ACNG_PORT=3142 \
+  --publish 3142:3142 \
+  --env ACNG_USER=1000 \
+  --env ACNG_CACHE_DIR=/var/cache/apt-cacher-ng \
+  --volume /srv/docker/apt-cacher-ng/cache:/var/cache/apt-cacher-ng \
+  --env ACNG_LOG_DIR=/var/log/apt-cacher-ng \
+  --volume /srv/docker/apt-cacher-ng/log:/var/log/apt-cacher-ng \
+  gijoe88/docker-apt-cacher-ng \
+# Config folder, present in default docker CMD, not to be forgotten \
+  -c /etc/apt-cacher-ng \
+# Adding verbosity \
+  -v
+```
+
 ## Environment variables
 
-**Non root user**: **not fully tested!**
-- `ACNG_USER`: set this environment variable to uid to use, or to a user present in bare distro image. Event the EXEC commands when container is alive become rootless.
+**Non root user**:
+- `ACNG_USER`: set this environment variable to the uid to use, or to a user present in bare distro image. Even custom commands become rootless.
+Behind the scenes, ownership of cache and log directories is changed to `ACNG_USER`.
 
 **Data location inside container**
 - `ACNG_CACHE_DIR`: location of cache inside the container.
