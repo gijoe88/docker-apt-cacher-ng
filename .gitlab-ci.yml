@@ -1,8 +1,8 @@
 variables:
   DOCKER_FOLDER: "." # folder source for build
   DOCKERFILE: "Dockerfile" # Dockerfile location, relative to DOCKER_FOLDER
-  SOURCE_IMAGE: debian
-  SOURCE_TAG: bullseye
+  SOURCE_IMAGE: ubuntu
+  SOURCE_TAG: groovy
   TARGET_IMAGE_TEST: registry-test.gijoe88.com:443/apt-cacher-ng
   TARGET_IMAGE_PROD: "registry.gijoe88.com:443/apt-cacher-ng gijoe88/docker-apt-cacher-ng"
   LIST_OF_ARCH: "amd64 arm64 armhf" # space separated list or arch. e.g: "amd64 arm64 armhf"
