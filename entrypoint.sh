@@ -34,7 +34,7 @@ change_config_folder_rights() {
 }
 
 set_report_page() {
-  if [[ -z "${ACNG_REPORTPAGE}" ]] ; then
+  if [[ ! -z "${ACNG_REPORTPAGE}" ]] ; then
     sed -i "s#ReportPage.*\$#ReportPage: ${ACNG_REPORTPAGE}#" /etc/apt-cacher-ng/acng.conf
   fi
 }
