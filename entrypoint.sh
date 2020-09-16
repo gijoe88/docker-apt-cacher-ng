@@ -9,15 +9,27 @@ create_pid_dir() {
 
 create_cache_dir() {
   mkdir -p ${ACNG_CACHE_DIR}
-  chmod -R 0755 ${ACNG_CACHE_DIR}
-  chown -R ${ACNG_USER}:root ${ACNG_CACHE_DIR}
+  ownership=$(stat --format="%U:%G" ${ACNG_CACHE_DIR})
+  rights=$(stat --format="%a" ${ACNG_CACHE_DIR})
+  if [ ! "x$rights" = "x755" ] ; then
+    chmod -R 0755 ${ACNG_CACHE_DIR} ;
+  fi ;
+  if [ ! "x$ownership" = "x${ACNG_USER}:root" ] ; then
+    chown -R ${ACNG_USER}:root ${ACNG_CACHE_DIR} ;
+  fi ;
   sed -i "s#^CacheDir.*\$#CacheDir: ${ACNG_CACHE_DIR}#g" /etc/apt-cacher-ng/acng.conf
 }
 
 create_log_dir() {
   mkdir -p ${ACNG_LOG_DIR}
-  chmod -R 0755 ${ACNG_LOG_DIR}
-  chown -R ${ACNG_USER}:${ACNG_USER} ${ACNG_LOG_DIR}
+  rights=$(stat --format="%a" ${ACNG_LOG_DIR})
+  ownership=$(stat --format="%U:%G" ${ACNG_LOG_DIR})
+  if [ ! "x$rights" = "x755" ] ; then
+    chmod -R 0755 ${ACNG_LOG_DIR} ;
+  fi ;
+  if [ ! "x$ownership" = "x${ACNG_USER}:${ACNG_USER}" ] ; then
+    chown -R ${ACNG_USER}:${ACNG_USER} ${ACNG_LOG_DIR} ;
+  fi ;
   sed -i "s#^LogDir.*\$#LogDir: ${ACNG_LOG_DIR}#g" /etc/apt-cacher-ng/acng.conf
 }
 
