@@ -7,7 +7,7 @@ variables:
   TARGET_IMAGE_PROD: "registry.gijoe88.com:443/apt-cacher-ng gijoe88/docker-apt-cacher-ng"
   LIST_OF_ARCH: "amd64 arm64 armhf" # space separated list or arch. e.g: "amd64 arm64 armhf"
 
-  CACHER_PACKAGE_VERSION: "3.5-1"
+  CACHER_PACKAGE_VERSION: "3.5-3"
 
 include:
   - project: gijoe88/gitlab-ci
