@@ -1,9 +1,9 @@
 ARG     SOURCE_IMAGE=debian
-ARG     SOURCE_TAG=buster
+ARG     SOURCE_TAG=bullseye
 
 FROM    ${SOURCE_IMAGE}:${SOURCE_TAG}
 
-ARG     CACHER_PACKAGE_VERSION=3.2.1-1
+ARG     CACHER_PACKAGE_VERSION=3.6.4-1
 
 VOLUME  ["/var/cache/apt-cacher-ng"]
 

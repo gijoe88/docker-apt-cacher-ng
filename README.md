@@ -65,7 +65,7 @@ With multiarch tagging, the same command is used to install it on whichever mach
 
 ```bash
 # See Tags page for available tags
-docker pull gijoe88/docker-apt-cacher-ng:buster-3.2.1-4
+docker pull gijoe88/docker-apt-cacher-ng:buster-3.6.4-1
 ```
 
 ## Quickstart

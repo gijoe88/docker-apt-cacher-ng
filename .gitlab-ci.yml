@@ -3,11 +3,11 @@ variables:
   DOCKERFILE: "Dockerfile" # Dockerfile location, relative to DOCKER_FOLDER
   SOURCE_IMAGE: debian
   SOURCE_TAG: bullseye
-  TARGET_IMAGE_TEST: registry-test.gijoe88.com:443/apt-cacher-ng
-  TARGET_IMAGE_PROD: "registry.gijoe88.com:443/apt-cacher-ng gijoe88/docker-apt-cacher-ng"
+  TARGET_IMAGE_TEST: docker-internal.gijoe88.com/apt-cacher-ng
+  TARGET_IMAGE_PROD: "docker.gijoe88.com/apt-cacher-ng"
   LIST_OF_ARCH: "amd64 arm64 armhf" # space separated list or arch. e.g: "amd64 arm64 armhf"
 
-  CACHER_PACKAGE_VERSION: "3.6-1"
+  CACHER_PACKAGE_VERSION: "3.6.4-1"
 
 include:
   - project: gijoe88/gitlab-ci
